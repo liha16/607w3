@@ -7,16 +7,69 @@ namespace BlackJack.view
 {
     class SwedishView : IView 
     {
+        public IDictionary<string, string> menuOptions = new Dictionary<string, string>(){
+            {"Spela", "s"},
+            {"Kort", "k"},
+            {"Stanna", "o"},
+            {"Avsluta", "a"}
+        };
+        private string ChoosenOption;
         public void DisplayWelcomeMessage()
         {
             System.Console.Clear();
             System.Console.WriteLine("Hej Black Jack Världen");
-            System.Console.WriteLine("----------------------");
-            System.Console.WriteLine("Skriv 'p' för att Spela, 'h' för nytt kort, 's' för att stanna 'q' för att avsluta\n");
+            DisplayMenuOptions();
         }
-        public int GetInput()
+
+        public void DisplayMenuOptions()
         {
-            return System.Console.In.Read();
+            string menuAsString = "Skriv ";
+            foreach(KeyValuePair<string, string> entry in menuOptions)
+                {
+                    menuAsString += "'" + entry.Value + "' för " + entry.Key + ", ";
+                }
+            menuAsString = menuAsString.Remove(menuAsString.Length - 2);
+            menuAsString += "\n";
+            System.Console.WriteLine(menuAsString);
+        }
+
+        public void SetInputOption()
+        {
+            ChoosenOption = System.Console.In.ReadLine();   
+        }
+        public bool doesUserWantToPlay()
+        {
+            if (ChoosenOption == menuOptions["Spela"])
+            {
+                return true;
+            }
+            return false;
+        }
+        
+        public bool doesUserWantToHit()
+        {
+            if (ChoosenOption == menuOptions["Kort"])
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool doesUserWantToStand()
+        {
+            if (ChoosenOption == menuOptions["Stanna"])
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool doesUserWantToQuit()
+        {
+            if (ChoosenOption == menuOptions["Avsluta"])
+            {
+                return true;
+            }
+            return false;
         }
         public void DisplayCard(model.Card a_card)
         {

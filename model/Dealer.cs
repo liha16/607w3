@@ -13,7 +13,6 @@ namespace BlackJack.model
         private rules.INewGameStrategy m_newGameRule;
         private rules.IHitStrategy m_hitRule;
 
-
         public Dealer(rules.RulesFactory a_rulesFactory)
         {
             m_newGameRule = a_rulesFactory.GetNewGameRule();
@@ -46,9 +45,7 @@ namespace BlackJack.model
             return false;
         }
 
-// EDIT START
-
-        public bool Stand(Player a_player)
+        public bool Stand(Player a_player) // NEW
         {
             if (m_deck != null)
             {
@@ -56,7 +53,6 @@ namespace BlackJack.model
                 
                 while (m_hitRule.DoHit(this))
                 {
-                    m_hitRule.DoHit(this);
                     Card c;
                     c = m_deck.GetCard();
                     c.Show(true);
@@ -66,9 +62,6 @@ namespace BlackJack.model
             }
             return false;
         }
-
-
-// EDIT FINISH
 
         public bool IsDealerWinner(Player a_player)
         {
@@ -91,5 +84,7 @@ namespace BlackJack.model
             }
             return false;
         }
+
+
     }
 }

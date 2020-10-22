@@ -7,32 +7,73 @@ namespace BlackJack.view
 {
     class SimpleView : IView
     {
-        public MenuOptions MenuOptions{get;} // Menu options
+        public IDictionary<string, string> menuOptions = new Dictionary<string, string>(){
+            {"Play", "p"},
+            {"Hit", "h"},
+            {"Stand", "s"},
+            {"Quit", "q"}
+        };
+        private string ChoosenOption;
 
         public void DisplayWelcomeMessage()
         {
             System.Console.Clear();
             System.Console.WriteLine("Hello Black Jack World");
-            System.Console.WriteLine("Type 'p' to Play, 'h' to Hit, 's' to Stand or 'q' to Quit\n");
-            //DisplayMenuOptions();
-            
+            DisplayMenuOptions();
         }
 
-        private void DisplayMenuOptions ()
+        public void DisplayMenuOptions()
         {
-            string[] names = Enum.GetNames(typeof(MenuOptions));
-            MenuOptions[] values = (MenuOptions[])Enum.GetValues(typeof(MenuOptions));
+            string menuAsString = "Type ";
+            foreach(KeyValuePair<string, string> entry in menuOptions)
+                {
+                    menuAsString += "'" + entry.Value + "' to " + entry.Key + ", ";
+                }
+            menuAsString = menuAsString.Remove(menuAsString.Length - 2);
+            menuAsString += "\n";
+            System.Console.WriteLine(menuAsString);
+        }
 
-            for( int i = 0; i < names.Length; i++ )
+        public void SetInputOption()
+        {
+            ChoosenOption = System.Console.In.ReadLine();   
+        }
+
+        public bool doesUserWantToPlay()
+        {
+            if (ChoosenOption == menuOptions["Play"])
             {
-                System.Console.WriteLine(names[i], values[i]);
+                return true;
             }
+            return false;
         }
         
-        public int GetInput()
+        public bool doesUserWantToHit()
         {
-            return System.Console.In.Read();
+            if (ChoosenOption == menuOptions["Hit"])
+            {
+                return true;
+            }
+            return false;
         }
+
+        public bool doesUserWantToStand()
+        {
+            if (ChoosenOption == menuOptions["Stand"])
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool doesUserWantToQuit()
+        {
+            if (ChoosenOption == menuOptions["Quit"])
+            {
+                return true;
+            }
+            return false;
+        }
+        
 
         public void DisplayCard(model.Card a_card)
         {
