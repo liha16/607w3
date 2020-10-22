@@ -11,6 +11,7 @@ namespace BlackJack.model.rules
 
         public bool DoHit(model.Player a_dealer)
         {
+            // This rule presumes limit of cards is 5
             
             bool isUnderLimit = a_dealer.CalcScore() < g_hitLimit;
             bool isSoft17 = a_dealer.CalcScore() == g_hitLimit && a_dealer.HasAce(); // 17 with ace

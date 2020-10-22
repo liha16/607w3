@@ -13,10 +13,13 @@ namespace BlackJack.model
         private rules.INewGameStrategy m_newGameRule;
         private rules.IHitStrategy m_hitRule;
 
+        private rules.IWhoWinsStrategy m_whoWinsRule;
+
         public Dealer(rules.RulesFactory a_rulesFactory)
         {
             m_newGameRule = a_rulesFactory.GetNewGameRule();
             m_hitRule = a_rulesFactory.GetHitRule();
+            m_whoWinsRule = a_rulesFactory.GetWhoWinsRule();
         }
 
         public bool NewGame(Player a_player)
@@ -45,7 +48,7 @@ namespace BlackJack.model
             return false;
         }
 
-        public bool Stand(Player a_player) // NEW
+        public bool Stand()
         {
             if (m_deck != null)
             {
@@ -56,26 +59,30 @@ namespace BlackJack.model
                     Card c;
                     c = m_deck.GetCard();
                     c.Show(true);
-                    a_player.DealCard(c);
+                    this.DealCard(c);
                 }
                 return true;
             }
             return false;
         }
 
+        public bool IsDealerWinner2(Player a_player)
+        {
+             if (a_player.CalcScore() > g_maxScore)
+             {
+                 return true;
+             }
+             else if (CalcScore() > g_maxScore)
+             {
+                 return false;
+             }
+             return CalcScore() >= a_player.CalcScore();
+         }
+
         public bool IsDealerWinner(Player a_player)
         {
-            if (a_player.CalcScore() > g_maxScore)
-            {
-                return true;
-            }
-            else if (CalcScore() > g_maxScore)
-            {
-                return false;
-            }
-            return CalcScore() >= a_player.CalcScore();
+            return m_whoWinsRule.isDealerWinner(this, a_player, g_maxScore);   
         }
-
         public bool IsGameOver()
         {
             if (m_deck != null && /*CalcScore() >= g_hitLimit*/ m_hitRule.DoHit(this) != true)

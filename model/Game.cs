@@ -38,7 +38,7 @@ namespace BlackJack.model
 
         public bool Stand()
         {
-            return m_dealer.Stand(m_player);
+            return m_dealer.Stand();
         }
 
         public IEnumerable<Card> GetDealerHand()
