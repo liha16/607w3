@@ -2,38 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace BlackJack.controller
 {
     class PlayGame
     {
-        public bool Play(model.Game a_game, view.IView a_view)
+        //private model.Dealer m_dealer;
+        private view.IView view;
+        private model.Game game;
+        public void m_dealer_HandCardCompleted(object sender, EventArgs e)
+            {
+                Thread.Sleep(2000);
+                view.DisplayWelcomeMessage();
+                view.DisplayDealerHand(game.GetDealerHand(), game.GetDealerScore());
+                view.DisplayPlayerHand(game.GetPlayerHand(), game.GetPlayerScore());
+            }
+
+        public void StartGame(model.Game a_game, view.IView a_view) {
+            game = a_game;
+            view = a_view;
+            view.DisplayWelcomeMessage();
+            model.Dealer m_dealer = game.getDealer();
+            m_dealer.HandCardCompleted += m_dealer_HandCardCompleted; // subscribe to publisher (dealer)
+        }
+
+        public bool Play()
         {
-            a_view.DisplayWelcomeMessage();
-            
-            a_view.DisplayDealerHand(a_game.GetDealerHand(), a_game.GetDealerScore());
-            a_view.DisplayPlayerHand(a_game.GetPlayerHand(), a_game.GetPlayerScore());
-
-            if (a_game.IsGameOver())
+            if (game.IsGameOver())
             {
-                a_view.DisplayGameOver(a_game.IsDealerWinner());
+                view.DisplayGameOver(game.IsDealerWinner());
             }
 
-            a_view.SetInputOption();
+            view.SetInputOption();
 
-            if (a_view.doesUserWantToPlay())
+            if (view.doesUserWantToPlay())
             {
-                a_game.NewGame();
+                game.NewGame();
             }
-            else if (a_view.doesUserWantToHit())
+            else if (view.doesUserWantToHit())
             {
-                a_game.Hit();
+                game.Hit();
             }
-            else if (a_view.doesUserWantToStand())
+            else if (view.doesUserWantToStand())
             {
-                a_game.Stand();
+                game.Stand();
             }
-            else if(a_view.doesUserWantToQuit())
+            else if(view.doesUserWantToQuit())
             {
                 return false;
             }

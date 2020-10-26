@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace BlackJack.model
 {
     class Dealer : Player
@@ -14,6 +15,8 @@ namespace BlackJack.model
         private rules.IHitStrategy m_hitRule;
 
         private rules.IWhoWinsStrategy m_whoWinsRule;
+
+        public event EventHandler HandCardCompleted;
 
         public Dealer(rules.RulesFactory a_rulesFactory)
         {
@@ -90,7 +93,14 @@ namespace BlackJack.model
             c = m_deck.GetCard();
             c.Show(show);
             a_player.DealCard(c);
+            //EVENT COMPLETEd Thread.Sleep(1000);
+            OnHandCardCompleted(EventArgs.Empty);
             return true;
+        }
+
+        protected virtual void OnHandCardCompleted(EventArgs e)
+        {
+            HandCardCompleted?.Invoke(this, e);
         }
 
 

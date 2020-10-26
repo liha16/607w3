@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+//Lisa
+
 namespace BlackJack
 {
     class Program
@@ -12,8 +14,9 @@ namespace BlackJack
             model.Game g = new model.Game();
             view.IView v = new view.SwedishView();
             controller.PlayGame ctrl = new controller.PlayGame();
-
-            while (ctrl.Play(g, v));
+            
+            ctrl.StartGame(g, v);
+            while (ctrl.Play());
         }
     }
 }

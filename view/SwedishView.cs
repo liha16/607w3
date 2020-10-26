@@ -23,6 +23,7 @@ namespace BlackJack.view
 
         public void DisplayMenuOptions()
         {
+        
             string menuAsString = "Skriv ";
             foreach(KeyValuePair<string, string> entry in menuOptions)
                 {
@@ -86,10 +87,12 @@ namespace BlackJack.view
                 System.Console.WriteLine("{0} {1}", colors[(int)a_card.GetColor()], values[(int)a_card.GetValue()]);
             }
         }
+        // PAUSE
         public void DisplayPlayerHand(IEnumerable<model.Card> a_hand, int a_score)
         {
             DisplayHand("Spelare", a_hand, a_score);
         }
+        // PAUSE
         public void DisplayDealerHand(IEnumerable<model.Card> a_hand, int a_score)
         {
             DisplayHand("Croupier", a_hand, a_score);

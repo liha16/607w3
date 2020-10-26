@@ -60,5 +60,12 @@ namespace BlackJack.model
         {
             return m_player.CalcScore();
         }
+
+        public Dealer getDealer()
+        {
+               return m_dealer;
+              
+        }
+        
     }
 }
