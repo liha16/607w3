@@ -93,8 +93,7 @@ namespace BlackJack.model
             c = m_deck.GetCard();
             c.Show(show);
             a_player.DealCard(c);
-            //EVENT COMPLETEd Thread.Sleep(1000);
-            OnHandCardCompleted(EventArgs.Empty);
+            OnHandCardCompleted(EventArgs.Empty); //FIRE EVENT 
             return true;
         }
 
